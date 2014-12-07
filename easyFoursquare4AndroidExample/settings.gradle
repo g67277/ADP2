@@ -1,0 +1,2 @@
+include ':easyFoursquare4Android'
+include ':easyFoursquare4AndroidExample'

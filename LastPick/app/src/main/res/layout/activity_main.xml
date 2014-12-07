@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/map_container"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@null"
+        android:id="@+id/overly_container"
+        android:orientation="vertical" >
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/search_edit"
+            android:layout_toLeftOf="@+id/random_ok_btn"
+            android:layout_toStartOf="@+id/random_ok_btn"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#e6e1e1e1"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="34dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Random"
+            android:id="@+id/random_ok_btn"
+            android:layout_alignBottom="@+id/search_edit"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/search_edit"
+            android:background="#e6d7d7d7"
+            android:layout_marginRight="10dp"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/price_point"
+            android:layout_below="@+id/search_edit"
+            android:layout_alignLeft="@+id/search_edit"
+            android:layout_alignStart="@+id/search_edit"
+            android:layout_toLeftOf="@+id/random_ok_btn"
+            android:layout_toStartOf="@+id/random_ok_btn"
+            android:spinnerMode="dropdown"
+            android:entries="@array/price_point"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
