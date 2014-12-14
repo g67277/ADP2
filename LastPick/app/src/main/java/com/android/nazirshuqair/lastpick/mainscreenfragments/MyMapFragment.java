@@ -44,7 +44,7 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
 
     public interface MapMaster{
 
-        public void splashGPS(double _lat, double _lng);
+        public void apiCall(double _lat, double _lng, String _term, String _price);
     }
 
     MapMaster mListener;
@@ -63,6 +63,7 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
     public void updateMarkers(List<Resturant> _splashMarkers){
 
         coordinatesList = _splashMarkers;
+        mMap.clear();
 
         if (mMap != null){
             for (Resturant resturant : _splashMarkers){
@@ -91,7 +92,7 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
         mMap = getMap();
         enableGps();
 
-        mListener.splashGPS(cLatitude, cLongitude);
+        mListener.apiCall(cLatitude, cLongitude, "food", "");
 
         mMap.setInfoWindowAdapter(new MarkerAdapter());
         mMap.setOnInfoWindowClickListener(this);
@@ -107,7 +108,10 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
 
 
 
-    private void enableGps(){
+    public LatLng enableGps(){
+
+        LatLng requestedCoords = new LatLng(0,0);
+        LatLng nullCoords = new LatLng(0,0);
         if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
 
@@ -115,6 +119,7 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
             if (loc != null){
                 cLatitude = loc.getLatitude();
                 cLongitude = loc.getLongitude();
+                requestedCoords = new LatLng(cLatitude, cLongitude);
             }
             gpsEnabled = true;
         }else {
@@ -131,9 +136,12 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
                     })
                     .setNegativeButton("No", null)
                     .show();
-
         }
 
+        if (requestedCoords != nullCoords){
+            return requestedCoords;
+        }
+        return null;
     }
 
     private class MarkerAdapter implements GoogleMap.InfoWindowAdapter {

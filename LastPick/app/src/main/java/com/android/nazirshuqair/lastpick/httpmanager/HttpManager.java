@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by nazirshuqair on 9/21/14.
+ * Created by nazirshuqair on 12/04/14.
  */
 public class HttpManager {
 

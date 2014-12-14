@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,22 +27,17 @@ import butterknife.OnClick;
 
 public class MapSearchFragment extends Fragment {
 
+
     public static final String TAG = "MapSearchFragment.TAG";
 
+    int priceSelected;
 
     EditText searchEdit;
     Button randomOkBtn;
+    Spinner pricePointSpin;
+    Button clearText;
 
-    public MapSearchFragment(){
-
-    }
-
-    public static MapSearchFragment newInstance(){
-        MapSearchFragment frag = new MapSearchFragment();
-        return frag;
-    }
-
-    public interface SearchMasterClickListener{
+    public interface SearchMasterClickListener {
         public void pushData(String _searchTerm, String _pricePoint);
     }
 
@@ -50,29 +47,86 @@ public class MapSearchFragment extends Fragment {
     public void onAttach(Activity _activity) {
         super.onAttach(_activity);
 
-        if(_activity instanceof SearchMasterClickListener) {
-            mListener = (SearchMasterClickListener)_activity;
+        if (_activity instanceof SearchMasterClickListener) {
+            mListener = (SearchMasterClickListener) _activity;
         } else {
             throw new IllegalArgumentException("Containing activity must implement OnButtonClickListener interface");
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        //Connecting the view
-        View myFragmentView = inflater.inflate(R.layout.search_fragment, container, false);
 
-        searchEdit = (EditText) myFragmentView.findViewById(R.id.search_edit);
-        randomOkBtn = (Button) myFragmentView.findViewById(R.id.random_ok_btn);
+    public static MapSearchFragment newInstance() {
+        MapSearchFragment frag = new MapSearchFragment();
+
+
+        return frag;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater _inflater, ViewGroup _container,
+                             Bundle _savedInstanceState) {
+        View view = _inflater.inflate(R.layout.search_fragment, _container, false);
+
+        searchEdit = (EditText) view.findViewById(R.id.search_edit);
+        randomOkBtn = (Button) view.findViewById(R.id.random_ok_btn);
+        pricePointSpin = (Spinner) view.findViewById(R.id.price_point);
+        clearText = (Button) view.findViewById(R.id.clearText);
+
+        searchEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    clearText.setAlpha(100);
+                    clearText.setClickable(true);
+                } else {
+                    clearText.setAlpha(0);
+                    clearText.setClickable(false);
+                }
+            }
+        });
+
+        pricePointSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                String label = parent.getItemAtPosition(position).toString();
+                priceSelected = label.length();
+                // Showing selected spinner item
+                Toast.makeText(parent.getContext(), "You selected: " + label, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
 
         randomOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.pushData(String.valueOf(searchEdit.getText()), " ");
+                if (priceSelected > 0) {
+                    mListener.pushData(String.valueOf(searchEdit.getText()), String.valueOf(priceSelected));
+                } else {
+                    mListener.pushData(String.valueOf(searchEdit.getText()), "");
+                }
             }
         });
 
-        return myFragmentView;
+        clearText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchEdit.setText("");
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle _savedInstanceState) {
+        super.onActivityCreated(_savedInstanceState);
+
     }
 }

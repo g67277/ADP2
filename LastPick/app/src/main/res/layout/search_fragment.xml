@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:touchscreenBlocksFocus="false"
+    android:focusableInTouchMode="true">
 
     <EditText
         android:layout_width="50dp"
@@ -12,7 +14,9 @@
         android:layout_toStartOf="@+id/random_ok_btn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#ffe1e1e1" />
+        android:background="#ffe1e1e1"
+        android:text="burger"
+        android:elegantTextHeight="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -23,5 +27,30 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/search_edit" />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/price_point"
+        android:layout_below="@+id/search_edit"
+        android:layout_alignLeft="@+id/search_edit"
+        android:layout_alignStart="@+id/search_edit"
+        android:layout_toLeftOf="@+id/random_ok_btn"
+        android:layout_toStartOf="@+id/random_ok_btn"
+        android:spinnerMode="dropdown"
+        android:entries="@array/price_point"
+        />
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="X"
+        android:id="@+id/clearText"
+        android:layout_toStartOf="@+id/random_ok_btn"
+        android:layout_alignTop="@+id/search_edit"
+        android:layout_toLeftOf="@+id/random_ok_btn"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:alpha="0"
+        android:background="@null"/>
 
 </RelativeLayout>
