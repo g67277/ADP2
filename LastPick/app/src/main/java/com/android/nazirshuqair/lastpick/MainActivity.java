@@ -4,13 +4,17 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.nazirshuqair.lastpick.httpmanager.HttpManager;
@@ -20,7 +24,11 @@ import com.android.nazirshuqair.lastpick.mainscreenfragments.MyMapFragment;
 import com.android.nazirshuqair.lastpick.model.Resturant;
 import com.android.nazirshuqair.lastpick.parser.JSONParser;
 import com.google.android.gms.maps.model.LatLng;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,14 +38,14 @@ import java.util.List;
 
 public class MainActivity extends Activity implements MyMapFragment.MapMaster, MapSearchFragment.SearchMasterClickListener {
 
-    public static final int REQUEST_CODE = 1;
-
-
     List<Resturant> venuesList;
     List<Resturant> splashCoords = new ArrayList<Resturant>();
-    List<Resturant> searchResults = new ArrayList<Resturant>();
+
 
     boolean skipMapping = false;
+    boolean mainPics = false;
+
+    String fileName;
 
     MyMapFragment myMapFragment;
     @Override
@@ -57,8 +65,6 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
             MapSearchFragment frag = MapSearchFragment.newInstance();
             getFragmentManager().beginTransaction().replace(R.id.overly_container, frag, MapSearchFragment.TAG).commit();
         }
-
-
 
     }
 
@@ -100,14 +106,13 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
         String uriBase = "https://api.foursquare.com/v2/venues/explore?client_id=SK34ZCSYWESWVO501VCNPXY5T4ZZPEJSRLVYIBB2OPABNHCY&client_secret=M45XCWUBM23SD00JFTRBKCJSRQLW2VI2CDQ2TEUY0UEKKOGN%20&v=20130815&ll=";
         String uriQuery = "&query=";
         String uriPrice = "&price=";
-        String uriEnd = "&radius=7000&limit=10& venuePhotos=1";
+        String uriEnd = "&radius=7000&limit=10&venuePhotos=1";
         String fullUri;
         if (_price.isEmpty()){
             fullUri = uriBase + String.valueOf(_lat) + "," + String.valueOf(_lng) + uriQuery + _term + uriEnd;
         }else {
             fullUri = uriBase + String.valueOf(_lat) + "," + String.valueOf(_lng) + uriQuery + _term + uriPrice + _price + uriEnd;
         }
-
 
         Log.i("TESTING", fullUri);
 
@@ -166,11 +171,16 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
             }
             venuesList = JSONParser.parseFeed(result);
 
-
-            if (venuesList.size() != 0 && !skipMapping){
-                updateMapMarker();
-            }else if(venuesList.size() != 0 && skipMapping){
-                populateList();
+            if (venuesList != null) {
+                if (venuesList.size() != 0 && !skipMapping) {
+                    updateMapMarker();
+                    mainPics = true;
+                } else if (venuesList.size() != 0 && skipMapping) {
+                    populateList();
+                    mainPics = false;
+                } else {
+                    Toast.makeText(MainActivity.this, "No matching restaurants found", Toast.LENGTH_LONG).show();
+                }
             }else {
                 Toast.makeText(MainActivity.this, "No matching restaurants found", Toast.LENGTH_LONG).show();
             }
@@ -207,7 +217,7 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
             ArrayList<Resturant> overlays = new ArrayList<Resturant>();
             for (Resturant c : venuesList) {
                 overlays.add(new Resturant(c.getName(), c.getFormattedPhone(), c.getFormattedAddress(), c.getCurrency(),
-                        c.getText(), c.getFirstName(), c.getUrl(), c.getRating(), c.getLat(), c.getLng()));
+                        c.getText(), c.getFirstName(), c.getUrl(), c.getRating(), c.getLat(), c.getLng(), c.getDistance(), c.getImgUrl()));
             }
 
             // EMBED INTO INTENT
@@ -219,6 +229,7 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
         protected void onProgressUpdate(String... values){
 
         }
-
     }
+
+
 }

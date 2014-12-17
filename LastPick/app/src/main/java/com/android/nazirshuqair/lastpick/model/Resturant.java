@@ -21,6 +21,8 @@ public class Resturant implements Parcelable{
     private String firstName;
     private double lat;
     private double lng;
+    private double distance;
+    private String imgUrl;
 
     @Override
     public int describeContents() {
@@ -32,7 +34,8 @@ public class Resturant implements Parcelable{
     }
 
     public Resturant(String name, String formattedPhone, String formattedAddress, String currency,
-                           String text, String firstName, String url, double rating, double lat, double lng) {
+                           String text, String firstName, String url, double rating, double lat, double lng, double distance,
+                           String imgUrl) {
         this.name = name;
         this.formattedPhone = formattedPhone;
         this.formattedAddress = formattedAddress;
@@ -43,6 +46,8 @@ public class Resturant implements Parcelable{
         this.rating = rating;
         this.lat = lat;
         this.lng = lng;
+        this.distance = distance;
+        this.imgUrl = imgUrl;
     }
 
     @Override
@@ -57,6 +62,8 @@ public class Resturant implements Parcelable{
         dest.writeDouble(this.rating);
         dest.writeDouble(this.lat);
         dest.writeDouble(this.lng);
+        dest.writeDouble(this.distance);
+        dest.writeString(this.imgUrl);
 
     }
 
@@ -72,6 +79,8 @@ public class Resturant implements Parcelable{
         this.rating = source.readDouble();
         this.lat = source.readDouble();
         this.lng = source.readDouble();
+        this.distance = source.readDouble();
+        this.imgUrl = source.readString();
 
     }
 
@@ -85,10 +94,23 @@ public class Resturant implements Parcelable{
         public Resturant[] newArray(int size) {
             return new Resturant[size];
         }
-
-        // TODO IMPLEMENT
-
     };
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
 
     public double getLng() {
         return lng;

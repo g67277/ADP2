@@ -92,16 +92,12 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
         mMap = getMap();
         enableGps();
 
-        mListener.apiCall(cLatitude, cLongitude, "food", "");
+        if (gpsEnabled) {
+            mListener.apiCall(cLatitude, cLongitude, "food", "");
+        }
 
         mMap.setInfoWindowAdapter(new MarkerAdapter());
         mMap.setOnInfoWindowClickListener(this);
-
-        /*if (gpsEnabled) {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(cLatitude, cLongitude), 16));
-        }else {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(picLat, picLong), 16));
-        }*/
 
         locManager.removeUpdates(this);
     }

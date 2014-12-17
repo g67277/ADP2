@@ -3,11 +3,14 @@ package com.android.nazirshuqair.lastpick.listscreenfiles;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.android.nazirshuqair.lastpick.R;
+import com.android.nazirshuqair.lastpick.detailsfiles.DetailsActivity;
 import com.android.nazirshuqair.lastpick.listscreenfiles.listscreenfragments.FeaturedFragment;
 import com.android.nazirshuqair.lastpick.listscreenfiles.listscreenfragments.MasterListFragment;
 import com.android.nazirshuqair.lastpick.model.Resturant;
@@ -27,9 +30,29 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
 
     private List<Resturant> resturantsList;
     private List<Resturant> restoredList;
-    ScheduledExecutorService executor;
 
     MasterListFragment listFragment;
+
+    boolean startStop = false;
+
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+
+            if (resturantsList.size() > 2) {
+                randomDeletion();
+            }else {
+                timerHandler.removeCallbacks(timerRunnable);
+                startStop = false;
+                displayFeatured();
+                return;
+            }
+
+            timerHandler.postDelayed(this, 2000);
+        }
+    };
 
     MenuItem startDeletion;
     @Override
@@ -91,22 +114,17 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
 
     public void startDeletion(){
 
-        Runnable helloRunnable = new Runnable() {
-            public void run() {
-                Log.i("TESTING", "ONE OEIFJOEFJEIOWFJ EOWFIJEWOFI JEWOFJEWOFI JEOWFIJ WOFJ");
-
-                if (resturantsList.size() > 1) {
-                    randomDeletion();
-                }else {
-                    executor.shutdown();
-                    displayFeatured();
-                }
-            }
-        };
-
-        executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(helloRunnable, 0, 3, TimeUnit.SECONDS);
+        if (startStop) {
+            timerHandler.removeCallbacks(timerRunnable);
+            startStop = false;
+            startDeletion.setTitle("Pick for Me!");
+        } else {
+            timerHandler.postDelayed(timerRunnable, 0);
+            startStop = true;
+            startDeletion.setTitle("Pause");
+        }
     }
+
 
     public void randomDeletion(){
         Random r = new Random();
@@ -120,15 +138,10 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
         String name = resturantsList.get(0).getName();
         String phone = resturantsList.get(0).getFormattedPhone();
         String address = resturantsList.get(0).getFormattedAddress();
-        FeaturedFragment frag = FeaturedFragment.newInstance(name, phone, address);
+        String imgUrl = resturantsList.get(0).getImgUrl();
+        FeaturedFragment frag = FeaturedFragment.newInstance(name, phone, address, imgUrl);
         getFragmentManager().beginTransaction().replace(R.id.activity_listscreen, frag, FeaturedFragment.TAG).commit();
     }
-
-    @Override
-    public void retriveData(HashMap<String, Object> item, int position) {
-
-    }
-
 
     @Override
     public void restore() {
@@ -142,4 +155,35 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
 
     }
 
+    @Override
+    protected void onDestroy() {
+
+        timerHandler.removeCallbacks(timerRunnable);
+
+        super.onDestroy();
+    }
+
+    @Override
+    public void pushItemSelected(int _position) {
+
+        timerHandler.removeCallbacks(timerRunnable);
+        startStop = false;
+        startDeletion.setTitle("Pick for Me!");
+
+        Intent intent = new Intent(RandomDeletionActivity.this, DetailsActivity.class);
+        Resturant resturant = resturantsList.get(_position);
+
+        intent.putExtra("name", resturant.getName());
+        intent.putExtra("distance", String.valueOf(resturant.getDistance()));
+        intent.putExtra("phone", resturant.getFormattedPhone());
+        intent.putExtra("address", resturant.getFormattedAddress());
+        intent.putExtra("review", resturant.getText());
+        intent.putExtra("username", resturant.getFirstName());
+        intent.putExtra("rating", String.valueOf(resturant.getRating()));
+        intent.putExtra("lat", resturant.getLat());
+        intent.putExtra("lng", resturant.getLng());
+
+        startActivity(intent);
+
+    }
 }

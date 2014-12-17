@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout android:id="@+id/detailContainer1"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical"/>
+
+    <LinearLayout android:id="@+id/map_container_overlay"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/detailContainer1">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/detailContainer2">
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

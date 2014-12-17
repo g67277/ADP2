@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.nazirshuqair.lastpick.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by nazirshuqair on 12/13/14.
@@ -18,9 +19,10 @@ import com.android.nazirshuqair.lastpick.R;
 public class FeaturedFragment extends Fragment {
 
     public static final String TAG = "FeaturedFragment.TAG";
-    private static final String ARG_NAME = "ViewFragment.ARG_NAME";
-    private static final String ARG_PHONE = "ViewFragment.ARG_PHONE";
-    private static final String ARG_ADDRESS = "ViewFragment.ARG_ADDRESS";
+    private static final String ARG_NAME = "FeaturedFragment.ARG_NAME";
+    private static final String ARG_PHONE = "FeaturedFragment.ARG_PHONE";
+    private static final String ARG_ADDRESS = "FeaturedFragment.ARG_ADDRESS";
+    private static final String ARG_IMGURL = "FeaturedFragment.ARG_IMGURL";
 
     ImageView fImage;
     TextView fName;
@@ -45,13 +47,14 @@ public class FeaturedFragment extends Fragment {
         }
     }
 
-    public static FeaturedFragment newInstance(String _name, String _phone, String _address) {
+    public static FeaturedFragment newInstance(String _name, String _phone, String _address, String _imgUrl) {
         FeaturedFragment frag = new FeaturedFragment();
 
         Bundle args = new Bundle();
         args.putString(ARG_NAME, _name);
         args.putString(ARG_PHONE, _phone);
         args.putString(ARG_ADDRESS, _address);
+        args.putString(ARG_IMGURL, _imgUrl);
         frag.setArguments(args);
         return frag;
     }
@@ -72,7 +75,8 @@ public class FeaturedFragment extends Fragment {
         if (args != null && args.containsKey(ARG_NAME)) {
             updateDisplay(args.getString(ARG_NAME),
                     args.getString(ARG_PHONE),
-                    args.getString(ARG_ADDRESS));
+                    args.getString(ARG_ADDRESS),
+                    args.getString(ARG_IMGURL));
 
             restore = (Button) getView().findViewById(R.id.restore);
 
@@ -87,9 +91,8 @@ public class FeaturedFragment extends Fragment {
         }
     }
 
-    public void updateDisplay(String _name, String _phone, String _address){
+    public void updateDisplay(String _name, String _phone, String _address, String _imgUrl){
 
-        fName = (TextView) getView().findViewById(R.id.featuredAddress);
         fImage = (ImageView) getView().findViewById(R.id.featuredImage);
         fName = (TextView) getView().findViewById(R.id.featuredName);
         fPhone = (TextView) getView().findViewById(R.id.featuredPhone);
@@ -98,6 +101,8 @@ public class FeaturedFragment extends Fragment {
         fName.setText(_name);
         fPhone.setText(_phone);
         fAddress.setText(_address);
+        Picasso.with(getActivity()).load(_imgUrl).into(fImage);
+
     }
 
 

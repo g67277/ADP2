@@ -6,16 +6,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.android.nazirshuqair.lastpick.R;
-import com.android.nazirshuqair.lastpick.mainscreenfragments.MapSearchFragment;
 import com.android.nazirshuqair.lastpick.model.Resturant;
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,11 +32,13 @@ public class MasterListFragment extends Fragment {
     private static final String CNAME = "name";
     private static final String CDist = "distance";
     private static final String CPHONE = "phone";
+    private static final String CIMG = "img";
 
     ListView venuesListView;
     SimpleAdapter adapter;
 
-    public ArrayList<HashMap<String, Object>> mVenueList = new ArrayList<HashMap<String, Object>>();
+    //public ArrayList<HashMap<String, Object>> mVenueList = new ArrayList<HashMap<String, Object>>();
+    public List<Resturant> mVenuesList = new ArrayList<Resturant>();
 
     //This is to create a new instance of the fragment
     public static MasterListFragment newInstance() {
@@ -46,27 +49,23 @@ public class MasterListFragment extends Fragment {
     public void updateDisplay (List<Resturant> _object, boolean _refresh) {
 
 
-        if (mVenueList.size() > 0){
-            mVenueList.clear();
+        if (mVenuesList.size() > 0){
+            mVenuesList.clear();
         }
-        for (Resturant venue : _object) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
 
-            map.put(CNAME, venue.getName());
-            map.put(CPHONE, venue.getFormattedPhone());
-
-            mVenueList.add(map);
+        for (int i = 0; i < _object.size(); i++){
+            mVenuesList.add(_object.get(i));
         }
 
         if (_refresh){
-            adapter.notifyDataSetChanged();
+            venuesListView.invalidate();
             venuesListView.invalidateViews();
         }
 
     }
 
     public interface MasterClickListener {
-        public void retriveData(HashMap<String, Object> item, int position);
+        public void pushItemSelected(int _position);
     }
 
     private MasterClickListener mListener;
@@ -101,16 +100,27 @@ public class MasterListFragment extends Fragment {
 
         // Creating an array of our keys
         String[] keys = new String[] {
-                CNAME, CPHONE
+                CNAME, CPHONE, CDist, CIMG
         };
 
         // Creating an array of our list item components.
         // Indices must match the keys array.
         int[] views = new int[] {
                 R.id.venuName,
-                R.id.venuNum
+                R.id.venuNum,
+                R.id.distance_label,
+                R.id.venue_photo
         };
 
+        venuesListView.setAdapter(new dataListAdapter(mVenuesList));
+
+        venuesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mListener.pushItemSelected(position);
+            }
+        });
+        /*
         //creating an adapter to populate the listview
         adapter = new SimpleAdapter(getActivity(), mVenueList,  R.layout.list_item, keys, views);
         venuesListView.setAdapter(adapter);
@@ -124,6 +134,60 @@ public class MasterListFragment extends Fragment {
             }
 
         });
+        */
+    }
+
+    class dataListAdapter extends BaseAdapter {
+
+        List<Resturant> mList = new ArrayList<Resturant>();
+
+        dataListAdapter() {
+            mList = null;
+        }
+
+        public dataListAdapter(List<Resturant> _list) {
+            mList = _list;
+
+        }
+
+        public int getCount() {
+            return mList.size();
+        }
+
+        public Object getItem(int arg0) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            View row;
+            row = inflater.inflate(R.layout.list_item, parent, false);
+            TextView vName, vPhone, vDistance;
+            ImageView vImg;
+            Resturant resturant = new Resturant();
+
+            resturant = mList.get(position);
+
+            vName = (TextView) row.findViewById(R.id.venuName);
+            vPhone = (TextView) row.findViewById(R.id.venuNum);
+            vDistance = (TextView) row.findViewById(R.id.distance_label);
+            vImg=(ImageView)row.findViewById(R.id.venue_photo);
+
+            String imgURl = resturant.getImgUrl();
+            double distance = Math.round(resturant.getDistance() * 100) / 100;
+            vName.setText(resturant.getName());
+            vPhone.setText(resturant.getFormattedPhone());
+            vDistance.setText(distance + " mi");
+            Picasso.with(getActivity()).load(imgURl).into(vImg);
+
+            return (row);
+        }
     }
 
 }

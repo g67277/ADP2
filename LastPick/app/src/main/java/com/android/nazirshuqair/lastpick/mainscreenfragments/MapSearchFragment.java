@@ -3,6 +3,7 @@ package com.android.nazirshuqair.lastpick.mainscreenfragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.nazirshuqair.lastpick.R;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -36,6 +45,9 @@ public class MapSearchFragment extends Fragment {
     Button randomOkBtn;
     Spinner pricePointSpin;
     Button clearText;
+
+    String[] mostSearched;
+
 
     public interface SearchMasterClickListener {
         public void pushData(String _searchTerm, String _pricePoint);
@@ -67,6 +79,8 @@ public class MapSearchFragment extends Fragment {
                              Bundle _savedInstanceState) {
         View view = _inflater.inflate(R.layout.search_fragment, _container, false);
 
+        mostSearched = getResources().getStringArray(R.array.most_searched_lunch);
+
         searchEdit = (EditText) view.findViewById(R.id.search_edit);
         randomOkBtn = (Button) view.findViewById(R.id.random_ok_btn);
         pricePointSpin = (Spinner) view.findViewById(R.id.price_point);
@@ -78,9 +92,12 @@ public class MapSearchFragment extends Fragment {
                 if (hasFocus) {
                     clearText.setAlpha(100);
                     clearText.setClickable(true);
+                    randomOkBtn.setText("OK");
+                    pricePointSpin.performClick();
                 } else {
                     clearText.setAlpha(0);
                     clearText.setClickable(false);
+                    randomOkBtn.setText("Random");
                 }
             }
         });
@@ -104,13 +121,19 @@ public class MapSearchFragment extends Fragment {
         });
 
         randomOkBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                if (priceSelected > 0) {
+                if (priceSelected > 0 && searchEdit.getText().length() > 0) {
                     mListener.pushData(String.valueOf(searchEdit.getText()), String.valueOf(priceSelected));
-                } else {
+                } else if (searchEdit.getText().length() > 0) {
                     mListener.pushData(String.valueOf(searchEdit.getText()), "");
+                } else if (priceSelected > 0){
+                    mListener.pushData(randomSearch(), String.valueOf(priceSelected));
+                } else {
+                    mListener.pushData(randomSearch(), "");
                 }
+                searchEdit.clearFocus();
             }
         });
 
@@ -124,9 +147,17 @@ public class MapSearchFragment extends Fragment {
         return view;
     }
 
+    public String randomSearch(){
+        Random r = new Random();
+        int i1 = r.nextInt(mostSearched.length - 0) + 0;
+        String result = mostSearched[i1];
+        return result;
+    }
+
     @Override
     public void onActivityCreated(Bundle _savedInstanceState) {
         super.onActivityCreated(_savedInstanceState);
 
     }
+
 }

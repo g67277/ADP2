@@ -4,10 +4,68 @@
     <string name="app_name">Last Pick</string>
     <string name="action_settings">Settings</string>
     <string-array name="price_point">
+        <item></item>
         <item>$</item>
         <item>$$</item>
         <item>$$$</item>
         <item>$$$$</item>
+    </string-array>
+    <string-array name="most_searched_lunch">
+        <item>American</item>
+        <item>Asian</item>
+        <item>BBQ</item>
+        <item>Buffet</item>
+        <item>Burger</item>
+        <item>Burrito</item>
+        <item>Cafeteria</item>
+        <item>Cajun</item>
+        <item>Caribbean</item>
+        <item>Chinese</item>
+        <item>Cuban</item>
+        <item>Deli</item>
+        <item>Dessert</item>
+        <item>Falafel</item>
+        <item>Fast Food</item>
+        <item>Filipino</item>
+        <item>Food</item>
+        <item>Pizza</item>
+        <item>Food Truck</item>
+        <item>French</item>
+        <item>Gastropub</item>
+        <item>German</item>
+        <item>Gluten-Free</item>
+        <item>Greek</item>
+        <item>Hot Dog</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Pizza</item>
+        <item>Salad</item>
+        <item>Sandwich</item>
+        <item>Seafood</item>
+        <item>Snack</item>
+        <item>Soup</item>
+        <item>Spanish</item>
+        <item>Steakhouse</item>
+        <item>Sushi</item>
+        <item>Swiss</item>
+        <item>Taco</item>
+        <item>Vegetarian</item>
+        <item>Wings</item>
+        <item>Bar</item>
+        <item>Pub</item>
+        <item>Sports Bar</item>
+    </string-array>
+    <string-array name="most_searched_breakfast">
+        <item>Bagel</item>
+        <item>Breakfast</item>
+        <item>Backery</item>
+        <item>Coffee Shop</item>
+        <item>Donut</item>
+
+    </string-array>
+    <string-array name="most_searched_dinner">
+        <item>Diner</item>
+
     </string-array>
 
 </resources>
