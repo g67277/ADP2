@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.nazirshuqair.lastpick.R;
 import com.android.nazirshuqair.lastpick.model.Resturant;
+import com.android.nazirshuqair.lastpick.textViewHelper.AutoResizeTextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -168,21 +169,24 @@ public class MasterListFragment extends Fragment {
 
             View row;
             row = inflater.inflate(R.layout.list_item, parent, false);
-            TextView vName, vPhone, vDistance;
+            AutoResizeTextView vName, vPhone;
+            TextView vDistance;
             ImageView vImg;
             Resturant resturant = new Resturant();
 
             resturant = mList.get(position);
 
-            vName = (TextView) row.findViewById(R.id.venuName);
-            vPhone = (TextView) row.findViewById(R.id.venuNum);
+            vName = (AutoResizeTextView) row.findViewById(R.id.venuName);
+            vPhone = (AutoResizeTextView) row.findViewById(R.id.venuNum);
             vDistance = (TextView) row.findViewById(R.id.distance_label);
             vImg=(ImageView)row.findViewById(R.id.venue_photo);
 
             String imgURl = resturant.getImgUrl();
             double distance = Math.round(resturant.getDistance() * 100) / 100;
             vName.setText(resturant.getName());
+            vName.resizeText();
             vPhone.setText(resturant.getFormattedPhone());
+            vPhone.resizeText();
             vDistance.setText(distance + " mi");
             Picasso.with(getActivity()).load(imgURl).into(vImg);
 

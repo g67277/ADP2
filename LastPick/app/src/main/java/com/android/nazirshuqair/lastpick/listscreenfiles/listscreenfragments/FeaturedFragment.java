@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.nazirshuqair.lastpick.R;
+import com.android.nazirshuqair.lastpick.textViewHelper.AutoResizeTextView;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -25,7 +26,7 @@ public class FeaturedFragment extends Fragment {
     private static final String ARG_IMGURL = "FeaturedFragment.ARG_IMGURL";
 
     ImageView fImage;
-    TextView fName;
+    AutoResizeTextView fName;
     TextView fPhone;
     TextView fAddress;
     Button restore;
@@ -94,11 +95,12 @@ public class FeaturedFragment extends Fragment {
     public void updateDisplay(String _name, String _phone, String _address, String _imgUrl){
 
         fImage = (ImageView) getView().findViewById(R.id.featuredImage);
-        fName = (TextView) getView().findViewById(R.id.featuredName);
+        fName = (AutoResizeTextView) getView().findViewById(R.id.featuredName);
         fPhone = (TextView) getView().findViewById(R.id.featuredPhone);
         fAddress = (TextView) getView().findViewById(R.id.featuredAddress);
 
         fName.setText(_name);
+        fName.resizeText();
         fPhone.setText(_phone);
         fAddress.setText(_address);
         Picasso.with(getActivity()).load(_imgUrl).into(fImage);

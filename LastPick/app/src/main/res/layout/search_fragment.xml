@@ -2,55 +2,172 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/search_container"
     android:touchscreenBlocksFocus="false"
     android:focusableInTouchMode="true">
 
     <EditText
-        android:layout_width="50dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="10dp"
+        android:paddingLeft="20dp"
         android:id="@+id/search_edit"
-        android:layout_toLeftOf="@+id/random_ok_btn"
-        android:layout_toStartOf="@+id/random_ok_btn"
+        android:hint="Search Here!"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#ffe1e1e1"
-        android:elegantTextHeight="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Random"
-        android:id="@+id/random_ok_btn"
-        android:layout_alignBottom="@+id/search_edit"
+        android:background="@drawable/item_shadow"
+        android:elegantTextHeight="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/search_edit" />
+        android:layout_marginRight="10dp" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/random_ok_btn"
+        android:background="@drawable/item_shadow_red"
+        android:layout_alignTop="@+id/search_edit"
+        android:layout_alignRight="@+id/search_edit"
+        android:layout_alignEnd="@+id/search_edit"
+        android:layout_above="@+id/price_point"
+        android:textColor="#ffffffff"
+        android:text="random">
+
+        </Button>
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/randombutton"
+        android:id="@+id/random_view"
+        android:layout_alignTop="@+id/random_ok_btn"
+        android:layout_alignRight="@+id/random_ok_btn"
+        android:layout_alignEnd="@+id/random_ok_btn"
+        android:layout_above="@+id/price_point"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+         />
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:id="@+id/price_point"
+        android:background="@drawable/item_shadow"
         android:layout_below="@+id/search_edit"
         android:layout_alignLeft="@+id/search_edit"
         android:layout_alignStart="@+id/search_edit"
-        android:layout_toLeftOf="@+id/random_ok_btn"
-        android:layout_toStartOf="@+id/random_ok_btn"
         android:entries="@array/price_point"
         />
 
     <Button
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="X"
         android:id="@+id/clearText"
         android:layout_toStartOf="@+id/random_ok_btn"
+        android:alpha="0"
+        android:background="@null"
         android:layout_alignTop="@+id/search_edit"
         android:layout_toLeftOf="@+id/random_ok_btn"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="5dp"
-        android:alpha="0"
-        android:background="@null"/>
+        android:textColorHint="#ffdadada" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:baselineAligned="false">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/pause"
+                android:id="@+id/pause_animation"
+                android:layout_marginTop="77dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="135dp"
+            android:id="@+id/main_info_direct"
+            android:background="@drawable/item_shadow_red"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:id="@+id/main_v_rating"
+                android:gravity="center"
+                android:background="@drawable/mainpagerating"
+                android:textSize="15sp"
+                android:textColor="#ffffffff"
+                android:layout_toEndOf="@+id/main_v_pic"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/main_v_pic"
+                android:layout_marginLeft="140dp"
+                android:layout_marginBottom="5dp" />
+
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/main_v_pic"
+                android:scaleType="centerCrop"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_v_distance"
+                android:textColor="#ffffffff"
+                android:textSize="18sp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp" />
+
+            <com.android.nazirshuqair.lastpick.textViewHelper.AutoResizeTextView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:gravity="left"
+                android:id="@+id/main_v_name"
+                android:textColor="#ffffffff"
+                android:textSize="23sp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/main_v_pic"
+                android:layout_toEndOf="@+id/main_v_pic"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="Please tap to retry" />
+
+            <com.android.nazirshuqair.lastpick.textViewHelper.AutoResizeTextView
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:id="@+id/main_v_phone"
+                android:textColor="#ffffffff"
+                android:textSize="20sp"
+                android:gravity="left"
+                android:layout_below="@+id/main_v_name"
+                android:layout_alignLeft="@+id/main_v_name"
+                android:layout_alignStart="@+id/main_v_name"
+                android:layout_marginTop="5dp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:layout_weight="1">
+            </RelativeLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -9,16 +9,30 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#ffffffff"
-        android:id="@+id/linearLayout">
+        android:background="@drawable/item_shadow"
+        android:id="@+id/linearLayout"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/item_shadow_red"
+            android:text="Contacts:"
+            android:textColor="#ffffffff"
+            android:textSize="40sp"
+            android:layout_marginRight="25dp"
+            android:paddingLeft="10dp"/>
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/phone_view"
+            android:textColor="#198CFF"
             android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:textSize="30sp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -27,15 +41,17 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
+            android:paddingLeft="15dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:textSize="22sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#ffffffff"
+        android:background="@drawable/item_shadow"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -43,11 +59,24 @@
 
         <TextView
             android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:text="Reviews:"
+            android:id="@+id/main_v_rating"
+            android:textSize="40sp"
+            android:background="@drawable/item_shadow_red"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="25dp"
+            android:textColor="#ffffffff" />
+
+        <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/review_view"
             android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="177dp"
@@ -57,7 +86,9 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_gravity="right"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:gravity="right"
+            android:textSize="15sp" />
     </LinearLayout>
 
 

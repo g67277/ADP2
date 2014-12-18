@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.android.nazirshuqair.lastpick.model.Resturant;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -76,12 +79,33 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
             }
         }
 
-        if (gpsEnabled) {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(cLatitude, cLongitude), 12));
-        }else {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastMarkerLat, lastMarkerLng), 12));
-        }
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(lastMarkerLat, lastMarkerLng))
+                .zoom(17)
+                .bearing(90)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
     }
+
+    public void animateMap (LatLng _cVenue, String _vName, int _bearing){
+
+        int bearing = _bearing;
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions()
+        .position(_cVenue)
+        .title(_vName));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(_cVenue)
+                .zoom(17)
+                .bearing(bearing)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 2000, null);
+    }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -90,6 +114,7 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
         locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         mMap = getMap();
+        mMap.getUiSettings().setZoomControlsEnabled(false);
         enableGps();
 
         if (gpsEnabled) {
@@ -138,6 +163,10 @@ public class MyMapFragment extends MapFragment implements GoogleMap.OnInfoWindow
             return requestedCoords;
         }
         return null;
+    }
+
+    public boolean gpsStatus(){
+        return gpsEnabled;
     }
 
     private class MarkerAdapter implements GoogleMap.InfoWindowAdapter {

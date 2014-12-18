@@ -3,47 +3,62 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@drawable/item_shadow">
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="90dp"
-        android:id="@+id/venuName"
-        android:textSize="40sp"
-        android:textColor="#7d7d7d"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_toRightOf="@+id/venue_photo"
-        android:layout_toEndOf="@+id/venue_photo" />
+        android:layout_height="8dp"
+        android:text="New Text"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/item_shadow_red" />
 
-    <TextView
+    <com.android.nazirshuqair.lastpick.textViewHelper.AutoResizeTextView
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/venuName"
+        android:textSize="25sp"
+        android:textColor="#198CFF"
+        android:layout_below="@+id/textView"
+        android:layout_alignRight="@+id/distance_label"
+        android:layout_alignEnd="@+id/distance_label"
+        android:layout_toEndOf="@+id/venue_photo"
+        android:layout_toRightOf="@+id/venue_photo"
+        android:layout_marginLeft="5dp" />
+
+    <com.android.nazirshuqair.lastpick.textViewHelper.AutoResizeTextView
         android:layout_width="199dp"
         android:layout_height="35dp"
         android:id="@+id/venuNum"
-        android:textSize="25sp"
+        android:textSize="19sp"
         android:layout_below="@+id/venuName"
         android:layout_alignLeft="@+id/venuName"
         android:layout_alignStart="@+id/venuName"
         android:layout_alignRight="@+id/venuName"
-        android:layout_alignEnd="@+id/venuName" />
+        android:layout_alignEnd="@+id/venuName"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="20dp" />
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/distance_label"
-        android:layout_gravity="right"
         android:layout_below="@+id/venuNum"
-        android:layout_alignRight="@+id/venuNum"
-        android:layout_alignEnd="@+id/venuNum" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageView
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:id="@+id/venue_photo"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:layout_alignBottom="@+id/distance_label" />
+        android:layout_alignBottom="@+id/distance_label"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="2dp" />
 
 </RelativeLayout>

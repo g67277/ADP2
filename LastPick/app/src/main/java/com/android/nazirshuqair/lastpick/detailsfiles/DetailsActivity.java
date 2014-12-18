@@ -30,6 +30,7 @@ public class DetailsActivity extends Activity implements MapOverlayDetailFragmen
 
         Intent intent = getIntent();
 
+        setTitle(intent.getStringExtra("name"));
         if (savedInstanceState == null) {
 
             mapDetailFragment = MapDetailFragment.newInstance(intent.getDoubleExtra("lat", 0.0), intent.getDoubleExtra("lng", 0.0), intent.getStringExtra("name"));

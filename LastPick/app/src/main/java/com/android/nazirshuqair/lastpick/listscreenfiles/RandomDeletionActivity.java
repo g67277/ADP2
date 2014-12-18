@@ -1,7 +1,10 @@
 package com.android.nazirshuqair.lastpick.listscreenfiles;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -61,10 +64,11 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
         setContentView(R.layout.activity_listscreen);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#c8198cff")));
 
 
         Intent i = getIntent(); // RETRIEVE OUR INTENT
+        setTitle(i.getStringExtra("userInput"));
         resturantsList = i.getParcelableArrayListExtra("venues"); // GET PARCELABLE VENUES
         restoredList = new LinkedList<Resturant>();
         for (Resturant resturant: resturantsList){
@@ -174,7 +178,7 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
         Resturant resturant = resturantsList.get(_position);
 
         intent.putExtra("name", resturant.getName());
-        intent.putExtra("distance", String.valueOf(resturant.getDistance()));
+        intent.putExtra("distance", String.valueOf(Math.round(resturant.getDistance() * 1000) / 1000));
         intent.putExtra("phone", resturant.getFormattedPhone());
         intent.putExtra("address", resturant.getFormattedAddress());
         intent.putExtra("review", resturant.getText());

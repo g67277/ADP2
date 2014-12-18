@@ -40,7 +40,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="false"
-        android:textSize="50sp"
+        android:textSize="40sp"
+        android:background="@drawable/mainpagerating"
         android:textColor="#fffdfdfd"
         android:gravity="center"
         android:text="9.9" />
