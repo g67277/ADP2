@@ -111,9 +111,11 @@ public class MapSearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 pauseMap();
-                String phoneNumPlain = venuePhone.replaceAll("\\D", "");
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumPlain));
-                startActivity(intent);
+                if (!venuePhone.equals("Not Available")) {
+                    String phoneNumPlain = venuePhone.replaceAll("\\D", "");
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumPlain));
+                    startActivity(intent);
+                }
             }
         });
 
@@ -236,7 +238,7 @@ public class MapSearchFragment extends Fragment {
         vRating.setText(_rating);
         vPhone.setText(_phone);
         vPhone.resizeText();
-        vDistance.setText(String.valueOf(Math.round(_distance * 100) / 100));
+        vDistance.setText(String.valueOf(Math.round(_distance * 100.0) / 100.0) + " mi");
         Picasso.with(getActivity()).load(_imgUrl).into(vPic);
     }
 

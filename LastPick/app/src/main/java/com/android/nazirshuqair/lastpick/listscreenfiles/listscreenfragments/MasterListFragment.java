@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -37,6 +39,7 @@ public class MasterListFragment extends Fragment {
 
     ListView venuesListView;
     SimpleAdapter adapter;
+    LinearLayout blockScroll;
 
     //public ArrayList<HashMap<String, Object>> mVenueList = new ArrayList<HashMap<String, Object>>();
     public List<Resturant> mVenuesList = new ArrayList<Resturant>();
@@ -90,7 +93,7 @@ public class MasterListFragment extends Fragment {
 
         //Connecting the ListView
         venuesListView = (ListView) myFragmentView.findViewById(R.id.venueViewList);
-
+        blockScroll = (LinearLayout) myFragmentView.findViewById(R.id.block_scrolling);
 
         return myFragmentView;
     }
@@ -182,7 +185,7 @@ public class MasterListFragment extends Fragment {
             vImg=(ImageView)row.findViewById(R.id.venue_photo);
 
             String imgURl = resturant.getImgUrl();
-            double distance = Math.round(resturant.getDistance() * 100) / 100;
+            double distance = Math.round(resturant.getDistance() * 100.0) / 100.0;
             vName.setText(resturant.getName());
             vName.resizeText();
             vPhone.setText(resturant.getFormattedPhone());
@@ -194,4 +197,16 @@ public class MasterListFragment extends Fragment {
         }
     }
 
+
+    public void stopScrolling(){
+        blockScroll.setClickable(true);
+        blockScroll.setFocusable(true);
+        blockScroll.setFocusableInTouchMode(true);
+    }
+
+    public void resumeScrolling(){
+        blockScroll.setClickable(false);
+        blockScroll.setFocusable(false);
+        blockScroll.setFocusableInTouchMode(false);
+    }
 }

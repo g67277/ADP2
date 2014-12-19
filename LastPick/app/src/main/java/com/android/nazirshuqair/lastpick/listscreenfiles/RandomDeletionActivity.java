@@ -2,20 +2,26 @@ package com.android.nazirshuqair.lastpick.listscreenfiles;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.nazirshuqair.lastpick.R;
 import com.android.nazirshuqair.lastpick.detailsfiles.DetailsActivity;
 import com.android.nazirshuqair.lastpick.listscreenfiles.listscreenfragments.FeaturedFragment;
 import com.android.nazirshuqair.lastpick.listscreenfiles.listscreenfragments.MasterListFragment;
+import com.android.nazirshuqair.lastpick.listscreenfiles.listscreenfragments.SettingsFragment;
 import com.android.nazirshuqair.lastpick.model.Resturant;
 
 import java.util.HashMap;
@@ -29,10 +35,14 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by nazirshuqair on 12/13/14.
  */
-public class RandomDeletionActivity extends Activity implements MasterListFragment.MasterClickListener, FeaturedFragment.RestoreClickListener{
+public class RandomDeletionActivity extends Activity implements MasterListFragment.MasterClickListener,
+        FeaturedFragment.RestoreClickListener, SettingsFragment.PrefClickListener{
 
     private List<Resturant> resturantsList;
     private List<Resturant> restoredList;
+
+    SharedPreferences defaultPrefs;
+
 
     MasterListFragment listFragment;
 
@@ -53,7 +63,7 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
                 return;
             }
 
-            timerHandler.postDelayed(this, 2000);
+            timerHandler.postDelayed(this, defaultPrefs.getInt("seconds", 2000));
         }
     };
 
@@ -65,6 +75,8 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#c8198cff")));
+
+        defaultPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         Intent i = getIntent(); // RETRIEVE OUR INTENT
@@ -110,6 +122,19 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
                 }
             });
 
+            MenuItem resetForm = menu.add("Setting");
+            resetForm.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.activity_listscreen, new SettingsFragment());
+                    ft.commit();
+
+                    return true;
+                }
+            });
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -122,10 +147,12 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
             timerHandler.removeCallbacks(timerRunnable);
             startStop = false;
             startDeletion.setTitle("Pick for Me!");
+            listFragment.resumeScrolling();
         } else {
             timerHandler.postDelayed(timerRunnable, 0);
             startStop = true;
             startDeletion.setTitle("Pause");
+            listFragment.stopScrolling();
         }
     }
 
@@ -133,6 +160,9 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
     public void randomDeletion(){
         Random r = new Random();
         int i1 = r.nextInt(resturantsList.size() - 0) + 0;
+        Resturant resturant = new Resturant();
+        resturant = resturantsList.get(i1);
+        Toast.makeText(this, resturant.getName() + " has been deleted!", Toast.LENGTH_SHORT).show();
         resturantsList.remove(i1);
         listFragment.updateDisplay(resturantsList, true);
     }
@@ -160,6 +190,29 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
     }
 
     @Override
+    public void toDetails() {
+
+        timerHandler.removeCallbacks(timerRunnable);
+        startStop = false;
+        startDeletion.setTitle("Pick for Me!");
+
+        Intent intent = new Intent(RandomDeletionActivity.this, DetailsActivity.class);
+        Resturant resturant = resturantsList.get(0);
+
+        intent.putExtra("name", resturant.getName());
+        intent.putExtra("distance", String.valueOf(Math.round(resturant.getDistance() * 100.0) / 100.0));
+        intent.putExtra("phone", resturant.getFormattedPhone());
+        intent.putExtra("address", resturant.getFormattedAddress());
+        intent.putExtra("review", resturant.getText());
+        intent.putExtra("username", resturant.getFirstName());
+        intent.putExtra("rating", String.valueOf(resturant.getRating()));
+        intent.putExtra("lat", resturant.getLat());
+        intent.putExtra("lng", resturant.getLng());
+
+        startActivity(intent);
+    }
+
+    @Override
     protected void onDestroy() {
 
         timerHandler.removeCallbacks(timerRunnable);
@@ -178,7 +231,7 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
         Resturant resturant = resturantsList.get(_position);
 
         intent.putExtra("name", resturant.getName());
-        intent.putExtra("distance", String.valueOf(Math.round(resturant.getDistance() * 1000) / 1000));
+        intent.putExtra("distance", String.valueOf(Math.round(resturant.getDistance() * 100.0) / 100.0));
         intent.putExtra("phone", resturant.getFormattedPhone());
         intent.putExtra("address", resturant.getFormattedAddress());
         intent.putExtra("review", resturant.getText());
@@ -188,6 +241,19 @@ public class RandomDeletionActivity extends Activity implements MasterListFragme
         intent.putExtra("lng", resturant.getLng());
 
         startActivity(intent);
+
+    }
+
+    @Override
+    public void secondsDelay(int seconds) {
+
+        SharedPreferences.Editor edit = defaultPrefs.edit();
+        edit.putInt("seconds", seconds);
+        edit.apply();
+
+            listFragment = MasterListFragment.newInstance();
+            getFragmentManager().beginTransaction().replace(R.id.activity_listscreen, listFragment, MasterListFragment.TAG).commit();
+            listFragment.updateDisplay(resturantsList, false);
 
     }
 }

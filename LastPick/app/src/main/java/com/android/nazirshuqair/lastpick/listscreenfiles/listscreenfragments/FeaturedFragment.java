@@ -30,9 +30,11 @@ public class FeaturedFragment extends Fragment {
     TextView fPhone;
     TextView fAddress;
     Button restore;
+    Button details;
 
     public interface RestoreClickListener{
         public void restore();
+        public void toDetails();
     }
 
     private RestoreClickListener mListener;
@@ -78,6 +80,15 @@ public class FeaturedFragment extends Fragment {
                     args.getString(ARG_PHONE),
                     args.getString(ARG_ADDRESS),
                     args.getString(ARG_IMGURL));
+
+            details = (Button) getView().findViewById(R.id.featured_details);
+
+            details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.toDetails();
+                }
+            });
 
             restore = (Button) getView().findViewById(R.id.restore);
 

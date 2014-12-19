@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -57,7 +58,15 @@ public class MapDetailFragment extends MapFragment {
                     .position(new LatLng(_lat, _lng))
                     .title(_name));
         }
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(_lat, _lng), 15));
+
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(_lat, _lng))
+                .zoom(17)
+                .bearing(90)
+                .tilt(45)
+                .build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 2000, null);
 
     }
 

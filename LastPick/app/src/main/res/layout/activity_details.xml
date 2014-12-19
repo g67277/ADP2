@@ -6,12 +6,13 @@
 
     <LinearLayout android:id="@+id/detailContainer1"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="220dp"
+        android:background="@drawable/item_shadow"
         android:orientation="vertical"/>
 
     <LinearLayout android:id="@+id/map_container_overlay"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="220dp"
         android:orientation="vertical">
 
     </LinearLayout>
@@ -21,7 +22,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/scrollView"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/detailContainer1">
+        android:layout_below="@+id/map_container_overlay">
 
         <RelativeLayout
             android:orientation="vertical"

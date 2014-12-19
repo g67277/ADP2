@@ -46,13 +46,14 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
     private static final int REQUEST_ENABLE_GPS = 0x02001;
 
     List<Resturant> venuesList;
-    List<Resturant> splashCoords = new ArrayList<Resturant>();
+    List<Resturant> splashVenuesList = new ArrayList<Resturant>();
 
 
     boolean skipMapping = false;
     boolean mainPics = false;
     boolean randomSearch = false;
     boolean initialConnection = false;
+    boolean splashVenues = true;
 
     String pricePoint;
     String userInput;
@@ -196,7 +197,11 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
 
             if (venuesList != null) {
                 if (venuesList.size() != 0 && !skipMapping) {
-                    //updateMapMarker();
+
+                    for (int i = 0; i < venuesList.size(); i++){
+                        splashVenuesList.add(venuesList.get(i));
+                    }
+
                     timerHandler.postDelayed(timerRunnable, 0);
                     mainPics = true;
                 } else if (venuesList.size() != 0 && skipMapping) {
@@ -278,7 +283,7 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
                 bearing = 0;
             }
 
-            if (cVenue < venuesList.size() ) {
+            if (cVenue < splashVenuesList.size() ) {
                 animateMap();
                 bearing = bearing + 15;
                 cVenue++;
@@ -299,7 +304,7 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
         }
 
         Resturant resturant = new Resturant();
-        resturant = venuesList.get(cVenue);
+        resturant = splashVenuesList.get(cVenue);
 
         myMapFragment.animateMap(new LatLng(resturant.getLat(),resturant.getLng()), resturant.getName(), bearing);
         frag.updateMarkerDetails(resturant.getName(), String.valueOf(resturant.getRating()), resturant.getFormattedPhone(),
@@ -337,10 +342,10 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
             myMapFragment.enableGps();
         }else {
             Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-            Resturant resturant = venuesList.get(cVenue - 1 + _position);
+            Resturant resturant = splashVenuesList.get(cVenue - 1 + _position);
 
             intent.putExtra("name", resturant.getName());
-            intent.putExtra("distance", String.valueOf(Math.round(resturant.getDistance() * 1000) / 1000));
+            intent.putExtra("distance", String.valueOf(Math.round(resturant.getDistance() * 100.0) / 100.0));
             intent.putExtra("phone", resturant.getFormattedPhone());
             intent.putExtra("address", resturant.getFormattedAddress());
             intent.putExtra("review", resturant.getText());

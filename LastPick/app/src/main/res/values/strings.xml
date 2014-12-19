@@ -3,6 +3,13 @@
 
     <string name="app_name">Last Pick</string>
     <string name="action_settings">Settings</string>
+    <string-array name="seconds">
+        <item value="1">1 sec</item>
+        <item value="2">2 sec</item>
+        <item value="3">3 sec</item>
+        <item value="4">4 sec</item>
+        <item value="5">5 sec</item>
+    </string-array>
     <string-array name="price_point">
         <item></item>
         <item>$</item>

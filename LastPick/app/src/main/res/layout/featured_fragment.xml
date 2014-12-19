@@ -65,7 +65,25 @@
         android:layout_height="wrap_content"
         android:text="Restore"
         android:id="@+id/restore"
-        android:layout_below="@+id/featuredAddress"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5sp" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/featuredAddress"
+        android:layout_alignStart="@+id/featuredAddress"
+        android:layout_marginLeft="85dp"
+        android:layout_marginRight="10dp"
+        android:background="#A0E141"
+        android:textColor="#ffffffff"
+        android:layout_marginBottom="5dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Details"
+        android:id="@+id/featured_details"
+        android:layout_alignTop="@+id/restore"
+        android:layout_toRightOf="@+id/restore"
+        android:layout_toEndOf="@+id/restore"
+        android:layout_marginRight="80dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#ffffffff"
+        android:background="#198CFF" />
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package com.android.nazirshuqair.lastpick.detailsfiles;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,8 @@ public class DisplayDetailFragment extends Fragment {
     TextView addressLabel;
     TextView reviewLabel;
     TextView userNameLabel;
+
+    String venuePhone;
 
     public static DisplayDetailFragment newInstance() {
         DisplayDetailFragment frag = new DisplayDetailFragment();
@@ -64,11 +68,25 @@ public class DisplayDetailFragment extends Fragment {
                     args.getString(ARG_ADDRESS),
                     args.getString(ARG_REVIEW),
                     args.getString(ARG_FIRST));
+
+            phoneLabel = (TextView) getView().findViewById(R.id.phone_view);
+
+            phoneLabel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!venuePhone.equals("Not Available")) {
+                        String phoneNumPlain = venuePhone.replaceAll("\\D", "");
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumPlain));
+                        startActivity(intent);
+                    }
+                }
+            });
         }
     }
 
     public void updateDisplay(String _phone, String _address, String _review, String _firstName){
 
+        venuePhone = _phone;
         phoneLabel = (TextView) getView().findViewById(R.id.phone_view);
         addressLabel = (TextView) getView().findViewById(R.id.address_view);
         reviewLabel = (TextView) getView().findViewById(R.id.review_view);
