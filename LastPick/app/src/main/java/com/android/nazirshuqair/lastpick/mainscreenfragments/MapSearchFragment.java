@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class MapSearchFragment extends Fragment {
     TextView vRating, vDistance ;
     AutoResizeTextView vName, vPhone;
     ImageView vPic;
+    ProgressBar mainProgress;
     String[] mostSearched;
 
 
@@ -106,6 +108,7 @@ public class MapSearchFragment extends Fragment {
         vDistance = (TextView) view.findViewById(R.id.main_v_distance);
         vPhone = (AutoResizeTextView) view.findViewById(R.id.main_v_phone);
         vPic = (ImageView) view.findViewById(R.id.main_v_pic);
+        mainProgress = (ProgressBar) view.findViewById(R.id.main_progress_bar);
 
         vPhone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,6 +255,14 @@ public class MapSearchFragment extends Fragment {
         }else {
             vRating.setAlpha(100);
         }
+    }
+
+    public void showProgress(){
+        mainProgress.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgress(){
+        mainProgress.setVisibility(View.INVISIBLE);
     }
 
 }

@@ -170,8 +170,7 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
 
         @Override
         protected void onPreExecute(){
-            //updateDisplay
-            //pb.setVisibility(View.VISIBLE);
+            frag.showProgress();
         }
 
         @Override
@@ -194,6 +193,8 @@ public class MainActivity extends Activity implements MyMapFragment.MapMaster, M
                 return;
             }
             venuesList = JSONParser.parseFeed(result);
+
+            frag.hideProgress();
 
             if (venuesList != null) {
                 if (venuesList.size() != 0 && !skipMapping) {

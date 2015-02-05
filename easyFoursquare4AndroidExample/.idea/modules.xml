@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/easyFoursquare4Android/easyFoursquare4Android.iml" filepath="$PROJECT_DIR$/easyFoursquare4Android/easyFoursquare4Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easyFoursquare4AndroidExample.iml" filepath="$PROJECT_DIR$/easyFoursquare4AndroidExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easyFoursquare4AndroidExample/easyFoursquare4AndroidExample-easyFoursquare4AndroidExample.iml" filepath="$PROJECT_DIR$/easyFoursquare4AndroidExample/easyFoursquare4AndroidExample-easyFoursquare4AndroidExample.iml" />
+    </modules>
+  </component>
+</project>
+

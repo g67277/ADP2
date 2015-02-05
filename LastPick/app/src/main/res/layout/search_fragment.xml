@@ -35,18 +35,7 @@
         android:text="random">
 
         </Button>
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/randombutton"
-        android:id="@+id/random_view"
-        android:layout_alignTop="@+id/random_ok_btn"
-        android:layout_alignRight="@+id/random_ok_btn"
-        android:layout_alignEnd="@+id/random_ok_btn"
-        android:layout_above="@+id/price_point"
-        android:layout_margin="10dp"
-        android:layout_marginLeft="10dp"
-         />
+
     <Spinner
         android:layout_width="60dp"
         android:layout_height="wrap_content"
@@ -69,6 +58,14 @@
         android:layout_alignTop="@+id/search_edit"
         android:layout_toLeftOf="@+id/random_ok_btn"
         android:textColorHint="#ffdadada" />
+
+    <ProgressBar
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/search_edit"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="120dp"
+        android:id="@+id/main_progress_bar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
